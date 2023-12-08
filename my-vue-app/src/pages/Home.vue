@@ -1,83 +1,41 @@
 <script setup>
-import { ref } from 'vue'
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+import { ref, onMounted } from 'vue'
+import axios from 'axios';
+
+const produtos = ref([]);
+
+onMounted(() => {
+  axios.get('http://localhost:8080/produtos')
+    .then(response => {
+      produtos.value = response.data
+    })
+})
 
 </script>
 
 <template>
-  <div class="row">
+  <div class="row" v-for="p in  produtos " :key="p.id">
 
     <div class="col-3 pb-3">
       <div class="rounded-5 text-white produto">
         <div class="p-3">
           <a tabindex="1" class="btn" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Descrição"
             data-bs-content="Descrição do item">
-            <img class="img-responsive w-75"
-              src="https://i5.walmartimages.com/asr/91514adf-1cd0-4a89-931e-b62ea863a236.6acd4dd8fcad9642ee954a3e688da626.jpeg" />
+            <router-link :to="'/description/' + p.id">
+              <img class="img-responsive w-75"
+                src="https://i5.walmartimages.com/asr/91514adf-1cd0-4a89-931e-b62ea863a236.6acd4dd8fcad9642ee954a3e688da626.jpeg"
+                alt="{{ p.imagem.altText }}" />
+            </router-link>
           </a>
-          <h3>Nome</h3>
-          <h3>Valor: R$100,00</h3>
+          <h3>{{ p.nome }}</h3>
+          <h3>Valor: R${{ p.valor }}</h3>
           <button type="button" class="btn btn-success">Comprar</button>
         </div>
       </div>
     </div>
 
-    <div class="col-3 pb-3">
-      <div class="rounded-5 text-white produto">
-        <div class="p-3">
-          <button class="btn">
-            <img class="img-responsive w-75"
-              src="https://i5.walmartimages.com/asr/91514adf-1cd0-4a89-931e-b62ea863a236.6acd4dd8fcad9642ee954a3e688da626.jpeg" />
-          </button>
-          <h3>Nome</h3>
-          <h3>Valor: R$100,00</h3>
-          <button type="button" class="btn btn-success">Comprar</button>
-        </div>
-      </div>
-    </div>
 
-    <div class="col-3 pb-3">
-      <div class="rounded-5 text-white produto">
-        <div class="p-3">
-          <button class="btn">
-            <img class="img-responsive w-75"
-              src="https://i5.walmartimages.com/asr/91514adf-1cd0-4a89-931e-b62ea863a236.6acd4dd8fcad9642ee954a3e688da626.jpeg" />
-          </button>
-          <h3>Nome</h3>
-          <h3>Valor: R$100,00</h3>
-          <button type="button" class="btn btn-success">Comprar</button>
-        </div>
-      </div>
-    </div>
 
-    <div class="col-3 pb-3">
-      <div class="rounded-5 text-white produto">
-        <div class="p-3">
-          <button class="btn">
-            <img class="img-responsive w-75"
-              src="https://i5.walmartimages.com/asr/91514adf-1cd0-4a89-931e-b62ea863a236.6acd4dd8fcad9642ee954a3e688da626.jpeg" />
-          </button>
-          <h3>Nome</h3>
-          <h3>Valor: R$100,00</h3>
-          <button type="button" class="btn btn-success">Comprar</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-3 pb-3">
-      <div class="rounded-5 text-white produto">
-        <div class="p-3">
-          <button class="btn">
-            <img class="img-responsive w-75"
-              src="https://i5.walmartimages.com/asr/91514adf-1cd0-4a89-931e-b62ea863a236.6acd4dd8fcad9642ee954a3e688da626.jpeg" />
-          </button>
-          <h3>Nome</h3>
-          <h3>Valor: R$100,00</h3>
-          <button type="button" class="btn btn-success">Comprar</button>
-        </div>
-      </div>
-    </div>
 
   </div>
 </template>
